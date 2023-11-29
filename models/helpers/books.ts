@@ -3,6 +3,7 @@ import { FindAllBooksOptions } from '../../types/books';
 import { mapPaginationToMongoose } from '../../utils/mongoose';
 import Author from '../Author';
 import Genre from '../Genre';
+import _ from 'lodash';
 
 export const populateAuthorsOptions = {
   path: 'authors',
@@ -53,7 +54,6 @@ function composeGenreAggregation(genreId: string) {
 }
 
 function composeTitleAggregation(title: string) {
-  if (!title) return [];
   return [
     {
       title: {

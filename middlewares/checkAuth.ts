@@ -15,7 +15,7 @@ export async function checkAuth(req: WithAuthRequest, _res: Response, next: Next
     const findUser = await UserModel.findById(userId);
 
     if (!findUser) {
-      next(ApiError.forbidden('Invalid token.'));
+      next(ApiError.forbidden('Invalid token'));
       return;
     }
 
