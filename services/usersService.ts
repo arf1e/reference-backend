@@ -39,11 +39,18 @@ const updateOne = async (id: string, userDto: UserDto) => {
 };
 
 const deleteOne = async (id: string) => {
-  const deleteUser = await UserModel.findById(id);
-  if (!deleteUser) {
-    throw ApiError.resourceNotFound('User not found');
+  const user = await UserModel.findById(id);
+  if (!user) {
+    return;
   }
-  await deleteUser.deleteOne();
+  const booksBorrowedByUser = await Book.find({ borrowerId: id });
+  if (booksBorrowedByUser.length > 0) {
+    await Book.return(
+      booksBorrowedByUser.map((book) => book.id),
+      id
+    );
+  }
+  await UserModel.findByIdAndDelete(id);
 };
 
 const borrowBooks = async (userId: string, bookIds: string[]) => {

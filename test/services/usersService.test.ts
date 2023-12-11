@@ -45,17 +45,6 @@ describe('usersService', () => {
     expect(updatedUser.firstName).toBe(testName);
   });
 
-  test('deleteOne fails on nonexsitent user', async () => {
-    let thrownError: unknown;
-    const nonExistentId = new mongoose.Types.ObjectId().toString();
-    try {
-      await usersService.deleteOne(nonExistentId);
-    } catch (e) {
-      thrownError = e;
-    }
-    expect(thrownError).toBeInstanceOf(ApiError);
-  });
-
   test('changeRole fails on nonexsitent user', async () => {
     let thrownError: unknown;
     const nonExistentId = new mongoose.Types.ObjectId().toString();

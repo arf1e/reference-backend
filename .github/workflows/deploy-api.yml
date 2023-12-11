@@ -21,5 +21,8 @@ jobs:
           echo "TOKEN_SECRET=${{ secrets.TOKEN_SECRET }}" >> .env
           cat .env.example | grep "DB_URL" >> .env
           echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "CLOUDINARY_CLOUD=${{ secrets.CLOUDINARY_CLOUD }}" >> .env
+          echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
+          echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
       - name: Restart PM2 process
         run: pm2 restart library-api --silent

@@ -9,10 +9,12 @@ import { loggingMiddleware } from './middlewares/logging';
 import { errorLoggingMiddleware } from './middlewares/error';
 import { connectMongoDB } from './config/mongoose';
 import { spec } from './config/swagger';
+import { setupCloudinary } from './config/cloudinary';
 
 const app = express();
 
 connectMongoDB();
+setupCloudinary();
 
 // Body parser middleware for application/json
 app.use(express.json());

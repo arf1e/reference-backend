@@ -1,9 +1,18 @@
+import _ from 'lodash';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
 import BookAuthor from '../models/BookAuthor';
 import BookGenre from '../models/BookGenre';
-import { BookDto, FindAllBooksOptions } from '../types/books';
+import { AuthorType } from '../types/authors';
+import { BookDto, BookType, FindAllBooksOptions } from '../types/books';
 import { composePaginationOutput } from '../utils/pagination';
+
+async function preventBookDuplicate(isbn: string) {
+  const bookExists = await Book.findByIsbn(isbn);
+  if (bookExists) {
+    throw ApiError.badRequest('Provided ISBN already exists');
+  }
+}
 
 async function assignAuthorsToBook(bookId: string, authors: string[]) {
   const bookAuthors = authors.map((authorId) => ({
@@ -36,6 +45,8 @@ async function findOne(isbn: string) {
 }
 
 async function createOne(bookDto: BookDto) {
+  const { isbn } = bookDto;
+  await preventBookDuplicate(isbn);
   const newBook = new Book(bookDto);
   if (bookDto.authors) {
     await assignAuthorsToBook(newBook.id, bookDto.authors);
@@ -48,6 +59,11 @@ async function createOne(bookDto: BookDto) {
 }
 
 async function updateOne(isbn: string, bookDto: BookDto) {
+  console.log('UPDATE BOOK DTO', bookDto);
+  console.log('ISBN', isbn);
+  if (isbn !== bookDto.isbn) {
+    await preventBookDuplicate(bookDto.isbn);
+  }
   const updatedBook = await Book.findOneAndUpdate({ isbn }, bookDto, { new: true });
   if (!updatedBook) {
     throw ApiError.resourceNotFound('Book not found');
@@ -60,7 +76,7 @@ async function updateOne(isbn: string, bookDto: BookDto) {
     await BookGenre.deleteMany({ bookId: updatedBook._id });
     await assignGenresToBook(updatedBook.id, bookDto.genres);
   }
-  return updatedBook;
+  return findOne(updatedBook.isbn);
 }
 
 async function deleteOne(isbn: string) {
