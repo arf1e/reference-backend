@@ -3,8 +3,7 @@ import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
 import BookAuthor from '../models/BookAuthor';
 import BookGenre from '../models/BookGenre';
-import { AuthorType } from '../types/authors';
-import { BookDto, BookType, FindAllBooksOptions } from '../types/books';
+import { BookDto, FindAllBooksOptions } from '../types/books';
 import { composePaginationOutput } from '../utils/pagination';
 
 async function preventBookDuplicate(isbn: string) {

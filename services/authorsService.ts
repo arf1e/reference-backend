@@ -55,7 +55,6 @@ const updateById = async (authorId: string, author: AuthorDto) => {
 };
 
 const deleteById = async (authorId: string) => {
-  const author = await Author.findById(authorId);
   await Author.findByIdAndDelete(authorId);
   await BookAuthor.deleteMany({ authorId });
 };
