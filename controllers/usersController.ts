@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import UsersService from '../services/usersService';
-import { Role, UserDto } from '../types/users';
+import { Role, UserUpdateDto } from '../types/users';
 import respondWith from '../utils/respondWith';
 import { hideSensitiveData } from '../utils/hideSensitiveData';
 
@@ -15,7 +15,7 @@ async function getUserById(req: Request<{ id: string }>, res: Response) {
   respondWith(res, { code: 200, data: hideSensitiveData(user) });
 }
 
-async function updateUserById(req: Request<{ id: string }, unknown, UserDto>, res: Response) {
+async function updateUserById(req: Request<{ id: string }, unknown, UserUpdateDto>, res: Response) {
   const { id } = req.params;
   const userDto = req.body;
   const updatedUser = await UsersService.updateOne(id, userDto);

@@ -9,6 +9,13 @@ export const UserDtoSchema = z.object({
   lastName: z.string({ required_error: 'Please provide last name' }).min(2).max(50),
 });
 
+export const UpdateUserDtoSchema = z.object({
+  email: UserDtoSchema.shape.email,
+  image: UserDtoSchema.shape.image,
+  firstName: UserDtoSchema.shape.firstName,
+  lastName: UserDtoSchema.shape.lastName,
+});
+
 export const ChangeRoleSchema = z.object({
   role: z.enum([ROLEVALUES.ADMIN, ROLEVALUES.USER]),
 });

@@ -1,4 +1,4 @@
-import { Role, UserDto, UserType } from '../types/users';
+import { Role, UserDto, UserType, UserUpdateDto } from '../types/users';
 import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
@@ -26,7 +26,7 @@ const createOne = async (userDto: UserDto) => {
   return user;
 };
 
-const updateOne = async (id: string, userDto: UserDto) => {
+const updateOne = async (id: string, userDto: UserUpdateDto) => {
   const protectedInput = _.omit(userDto, ['password', 'role']);
   const updatedUser = await UserModel.findByIdAndUpdate(id, protectedInput, {
     new: true,

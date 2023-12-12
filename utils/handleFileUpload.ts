@@ -4,7 +4,7 @@ import * as cloudinary from 'cloudinary';
 import _ from 'lodash';
 import { ApiError } from '../errors/ApiError';
 
-const options: cloudinary.UploadApiOptions = {
+const bookOptions: cloudinary.UploadApiOptions = {
   folder: 'referencelib-images',
   allowed_formats: ['jpg', 'png'],
   transformation: [
@@ -15,11 +15,25 @@ const options: cloudinary.UploadApiOptions = {
   eager: [{ width: 375, height: 500, crop: 'pad', background: 'gen_fill' }],
 };
 
+const avatarOptions: cloudinary.UploadApiOptions = {
+  folder: 'referencelib-avatars',
+  allowed_formats: ['jpg', 'png'],
+  transformation: [
+    {
+      width: 375,
+      aspect_ratio: '1:1',
+      crop: 'fill',
+      quality: 90,
+    },
+  ],
+};
+
 function extractFileFromRequest(req: Request) {
   return new Promise((resolve, reject) => {
     const form = new multiparty.Form();
     form.parse(req, (error, _fields, files) => {
       if (error) {
+        console.log('error fileparser', error);
         reject(error);
       }
       const { path } = files.file[0];
@@ -28,9 +42,9 @@ function extractFileFromRequest(req: Request) {
   });
 }
 
-export default async function handleFileUpload(
+export default async function handleCoverUpload(
   req: Request,
-  uploadOptions: cloudinary.UploadApiOptions = options
+  uploadOptions: cloudinary.UploadApiOptions = bookOptions
 ) {
   const path = await extractFileFromRequest(req);
   const upload = await cloudinary.v2.uploader.upload(path as string, uploadOptions);
@@ -39,4 +53,10 @@ export default async function handleFileUpload(
     throw ApiError.badRequest('Image upload failed');
   }
   return output;
+}
+
+export async function handleAvatarUpload(req: Request) {
+  const path = await extractFileFromRequest(req);
+  const upload = await cloudinary.v2.uploader.upload(path as string, avatarOptions);
+  return upload.url;
 }
