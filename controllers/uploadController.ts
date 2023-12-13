@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
-import handleCoverUpload, { handleAvatarUpload } from '../utils/handleFileUpload';
+import handleCoverUpload, {
+  handleAuthorImageUpload,
+  handleAvatarUpload,
+} from '../utils/handleFileUpload';
 import respondWith from '../utils/respondWith';
 
 async function uploadCover(req: Request, res: Response) {
@@ -12,7 +15,13 @@ async function uploadAvatar(req: Request, res: Response) {
   respondWith(res, { code: 201, data: fileUrl });
 }
 
+async function uploadAuthorImage(req: Request, res: Response) {
+  const fileUrl = await handleAuthorImageUpload(req);
+  respondWith(res, { code: 201, data: fileUrl });
+}
+
 export default {
   uploadCover,
   uploadAvatar,
+  uploadAuthorImage,
 };

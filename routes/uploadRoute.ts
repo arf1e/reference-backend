@@ -6,3 +6,4 @@ export const uploadRouter = express.Router();
 
 uploadRouter.post('/cover', passThrowsToMiddleware(uploadController.uploadCover));
 uploadRouter.post('/avatar', passThrowsToMiddleware(uploadController.uploadAvatar));
+uploadRouter.post('/author', passThrowsToMiddleware(uploadController.uploadAuthorImage));

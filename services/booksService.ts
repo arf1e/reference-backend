@@ -58,8 +58,6 @@ async function createOne(bookDto: BookDto) {
 }
 
 async function updateOne(isbn: string, bookDto: BookDto) {
-  console.log('UPDATE BOOK DTO', bookDto);
-  console.log('ISBN', isbn);
   if (isbn !== bookDto.isbn) {
     await preventBookDuplicate(bookDto.isbn);
   }

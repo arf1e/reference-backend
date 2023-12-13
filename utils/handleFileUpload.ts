@@ -28,6 +28,21 @@ const avatarOptions: cloudinary.UploadApiOptions = {
   ],
 };
 
+const authorOptions: cloudinary.UploadApiOptions = {
+  folder: 'referencelib-authors',
+  allowed_formats: ['jpg', 'png'],
+  transformation: [
+    {
+      width: 375,
+      aspect_ratio: '1:1',
+      crop: 'fill',
+      quality: 80,
+      gravity: 'face',
+      effect: 'grayscale',
+    },
+  ],
+};
+
 function extractFileFromRequest(req: Request) {
   return new Promise((resolve, reject) => {
     const form = new multiparty.Form();
@@ -58,5 +73,11 @@ export default async function handleCoverUpload(
 export async function handleAvatarUpload(req: Request) {
   const path = await extractFileFromRequest(req);
   const upload = await cloudinary.v2.uploader.upload(path as string, avatarOptions);
+  return upload.url;
+}
+
+export async function handleAuthorImageUpload(req: Request) {
+  const path = await extractFileFromRequest(req);
+  const upload = await cloudinary.v2.uploader.upload(path as string, authorOptions);
   return upload.url;
 }
