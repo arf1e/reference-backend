@@ -6,7 +6,7 @@ on:
   workflow_dispatch: # So it's possible to manually retrigger the action
 jobs:
   deploy-api:
-    runs-on: [self-hosted, finland]
+    runs-on: [self-hosted, aws]
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
