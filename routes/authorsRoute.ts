@@ -41,6 +41,7 @@ authorsRouter.put(
   authorsValidator.validateAuthorInput,
   passThrowsToMiddleware(updateAuthor)
 );
+
 authorsRouter.delete(
   '/:id',
   checkAuth,

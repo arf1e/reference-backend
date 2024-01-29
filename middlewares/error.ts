@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { ApiError } from '../errors/ApiError';
 import respondWith from '../utils/respondWith';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 export function errorLoggingMiddleware(
   error: typeof ApiError | Error,
@@ -21,6 +22,11 @@ export function errorLoggingMiddleware(
 
   if (error instanceof mongoose.mongo.MongoError) {
     respondWith(res, { code: 400, message: error.message });
+    return;
+  }
+
+  if (error instanceof JsonWebTokenError) {
+    respondWith(res, { code: 403, message: error.message });
     return;
   }
 

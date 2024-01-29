@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { UserDtoSchema } from '../schemas/user';
+import { UpdateUserDtoSchema, UserDtoSchema } from '../schemas/user';
 import { JwtPayload } from 'jsonwebtoken';
 import { ROLEVALUES } from '../common/auth';
 import { Request } from 'express';
@@ -15,6 +15,7 @@ export type UserType = Document & {
 };
 
 export type UserDto = z.infer<typeof UserDtoSchema>;
+export type UserUpdateDto = z.infer<typeof UpdateUserDtoSchema>;
 export type JwtPayloadType = JwtPayload & { userId: string };
 
 export const role = ROLEVALUES;

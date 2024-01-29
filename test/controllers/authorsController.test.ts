@@ -140,12 +140,12 @@ describe('authorsController protected routes – admin', () => {
     expect(response.status).toBe(204);
   });
 
-  it('fails to delete non-existing author by ID', async () => {
+  it('deleting a non-existent author by ID results in 204 – idempotency', async () => {
     const nonExistingId = new mongoose.Types.ObjectId();
     const response = await request(app)
       .delete(`/api/v1/authors/${nonExistingId.toString()}`)
       .set('Authorization', `Bearer ${token}`);
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(204);
   });
 
   afterAll(async () => {

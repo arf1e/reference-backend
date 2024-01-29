@@ -6,6 +6,18 @@ import { GenreDTO, GenreQueryParamsType } from '../types/genres';
 import { mapPaginationToMongoose } from '../utils/mongoose';
 import { composePaginationOutput } from '../utils/pagination';
 
+const preventGenreDuplicate = async (title: string, genreId?: string) => {
+  const genreExists = await GenreModel.findOne({ title });
+  if (genreId) {
+    if (genreExists?.id === genreId) {
+      return;
+    }
+  }
+  if (genreExists) {
+    throw ApiError.badRequest('Genre with this title already exists');
+  }
+};
+
 const getAll = async (options: GenreQueryParamsType) => {
   const paginationOption = mapPaginationToMongoose({ page: options.page, limit: options.limit });
   const genres = await GenreModel.find(
@@ -48,6 +60,7 @@ const getAllBooks = async (id: string, pagination: PaginationType) => {
 };
 
 const create = async (genre: GenreDTO) => {
+  await preventGenreDuplicate(genre.title);
   const newGenre = new GenreModel(genre);
   const savedGenre = await newGenre.save();
   return savedGenre;
@@ -55,6 +68,7 @@ const create = async (genre: GenreDTO) => {
 
 const update = async (id: string, genre: GenreDTO) => {
   // By default, findByIdAndUpdate will return the document before the update was applied.
+
   const updatedGenre = await GenreModel.findByIdAndUpdate(id, genre, {
     returnDocument: 'after',
   });

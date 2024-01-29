@@ -2,7 +2,7 @@ import express from 'express';
 import UsersController from '../controllers/usersController';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
 import { validateId } from '../middlewares/idValidator';
-import { validateUserDtoInput } from '../middlewares/usersValidator';
+import { validateUserUpdateDtoInput } from '../middlewares/usersValidator';
 import { checkAuth } from '../middlewares/checkAuth';
 import { checkAdminRoleOrOwnership } from '../middlewares/checkAdminRoleOrOwnership';
 import { checkAdmin } from '../middlewares/checkAdmin';
@@ -38,7 +38,7 @@ userRouter.put(
   validateId,
   checkAuth,
   checkAdminRoleOrOwnership,
-  validateUserDtoInput,
+  validateUserUpdateDtoInput,
   passThrowsToMiddleware(UsersController.updateUserById)
 );
 

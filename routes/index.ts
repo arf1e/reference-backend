@@ -4,6 +4,7 @@ import userRouter from './usersRoute';
 import express from 'express';
 import { authorsRouter } from './authorsRoute';
 import { authRouter } from './authRoute';
+import { uploadRouter } from './uploadRoute';
 
 export const router = express.Router();
 
@@ -13,3 +14,4 @@ router.use('/genres', genresRouter);
 router.use('/authors', authorsRouter);
 router.use('/users', userRouter);
 router.use('/auth', authRouter);
+router.use('/upload', uploadRouter);
