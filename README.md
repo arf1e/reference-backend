@@ -3,8 +3,7 @@
 Express.js API for a library management system.
 The API allows users to perform CRUD operations on books, authors, genres and user domains.
 
-[![Node.js Lint & Build](https://github.com/arf1e/team-5-backend/actions/workflows/node.yml/badge.svg)](https://github.com/arf1e/team-5-backend/actions/workflows/node.yml)
-[![Deployment](https://github.com/arf1e/team-5-backend/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/arf1e/team-5-backend/actions/workflows/deploy-api.yml)
+[![Node.js Lint & Build](https://github.com/arf1e/reference-backend/actions/workflows/node.yml/badge.svg)](https://github.com/arf1e/reference-backend/actions/workflows/node.yml)
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
